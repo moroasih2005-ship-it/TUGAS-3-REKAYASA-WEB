@@ -1,0 +1,144 @@
+openapi: 3.0.3
+info:
+  title: API CRUD Mahasiswa
+  description: |
+    Endpoint untuk melakukan operasi CRUD pada data **Mahasiswa**.
+    Database: `db_mahasiswa`, Tabel: `mahasiswa`.
+    Dibuat oleh **Moro Asih**.
+  version: 1.0.0
+servers:
+  - url: http://localhost/api_mahasiswa
+    description: Localhost server
+
+paths:
+  /mahasiswa.php:
+    get:
+      summary: Ambil semua data mahasiswa
+      description: Mengambil semua data mahasiswa dari tabel `mahasiswa`.
+      responses:
+        '200':
+          description: Daftar semua data mahasiswa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mahasiswa'
+
+    post:
+      summary: Tambah data mahasiswa baru
+      description: Menambahkan data mahasiswa baru ke tabel `mahasiswa`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MahasiswaInput'
+      responses:
+        '200':
+          description: Data berhasil ditambahkan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+
+  /mahasiswa.php/{id}:
+    get:
+      summary: Ambil data mahasiswa berdasarkan ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Data mahasiswa berdasarkan ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mahasiswa'
+
+    put:
+      summary: Ubah data mahasiswa berdasarkan ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MahasiswaInput'
+      responses:
+        '200':
+          description: Data berhasil diperbarui
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+
+    delete:
+      summary: Hapus data mahasiswa berdasarkan ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Data berhasil dihapus
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+
+components:
+  schemas:
+    Mahasiswa:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nama:
+          type: string
+          example: "Bima Pras"
+        nim:
+          type: string
+          example: "G.231.23.0001"
+        jurusan:
+          type: string
+          example: "Teknik Informatika"
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    MahasiswaInput:
+      type: object
+      properties:
+        nama:
+          type: string
+          example: "Moro Asih"
+        nim:
+          type: string
+          example: "G.231.23.0047"
+        jurusan:
+          type: string
+          example: "Sistem Informasi"
